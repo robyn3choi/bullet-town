@@ -4,10 +4,14 @@
 [ext_resource path="res://Gun/Gun.gd" type="Script" id=2]
 
 [node name="Gun" type="Node2D"]
-position = Vector2( 51.0154, 38.9238 )
-rotation = 6.28319
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 5, -5 )
+position = Vector2( 3.98063, -2.34861 )
 texture = ExtResource( 1 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Muzzle" type="Node2D" parent="Sprite"]
+position = Vector2( 4.74012, -1.66999 )
