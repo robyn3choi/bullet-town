@@ -22,7 +22,7 @@ func _input(event):
 		elif !should_be_on_right() && is_on_right && !is_switch_disabled:
 			switch_to_left()
 
-		look_at_aim_point(event.position)
+		look_at_target(event.position)
 		
 		
 func should_be_on_right():
@@ -32,8 +32,8 @@ func should_be_on_right():
 		return rotation_degrees <= 90 - switch_buffer || rotation_degrees > 270 + switch_buffer
 
 func is_switch_disabled():
-	var distance_to_aim_point = global_position.distance_squared_to(get_global_mouse_position())
-	return distance_to_aim_point < switch_disable_distance
+	var distance_to_target = global_position.distance_squared_to(get_global_mouse_position())
+	return distance_to_target < switch_disable_distance
 	
 func switch_to_right():
 	$Sprite.scale = Vector2(1, 1)
@@ -47,7 +47,7 @@ func switch_to_left():
 	position = left_pos
 	is_on_right = false
 	
-func look_at_aim_point(cursor_pos):
+func look_at_target(cursor_pos):
 	var look_at_pos = cursor_pos;
 	var multipler = -1 if is_on_right else 1
 	look_at_pos += transform.y * muzzle_offset_y * multipler
