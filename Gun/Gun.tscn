@@ -15,3 +15,5 @@ __meta__ = {
 
 [node name="Muzzle" type="Node2D" parent="Sprite"]
 position = Vector2( 4.74012, -1.66999 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]

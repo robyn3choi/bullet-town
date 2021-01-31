@@ -48,7 +48,7 @@ func switch_to_left():
 	is_on_right = false
 	
 func look_at_target(cursor_pos):
-	var look_at_pos = cursor_pos;
-	var multipler = -1 if is_on_right else 1
-	look_at_pos += transform.y * muzzle_offset_y * multipler
-	look_at(look_at_pos)
+#	var look_at_pos = cursor_pos;
+#	var multipler = -1 if is_on_right else 1
+#	look_at_pos += transform.y * muzzle_offset_y * multipler
+	look_at(cursor_pos)

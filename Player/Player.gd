@@ -1,25 +1,38 @@
 extends KinematicBody2D
 
-const speed = 100
+const speed = 50
 
+onready var anim_player = $AnimationPlayer
 var velocity = Vector2.ZERO
-#onready var animation_player = $AnimationPlayer
-#onready var animation_tree = $AnimationTree
-#onready var animation_state = animation_tree.get("parameters/playback")
+var last_input_vector = Vector2(0, 1)
 
 func _physics_process(delta):
 	var input_vector = Vector2.ZERO
 	input_vector.x = Input.get_action_strength('ui_right') - Input.get_action_strength('ui_left')
 	input_vector.y = Input.get_action_strength('ui_down') - Input.get_action_strength('ui_up')
-	input_vector = input_vector.normalized()
 
 	if input_vector != Vector2.ZERO:
-#		animation_tree.set("parameters/Idle/blend_position", input_vector)
-#		animation_tree.set("parameters/Run/blend_position", input_vector)
-#		animation_state.travel("Run")
-		velocity = input_vector * speed
+		last_input_vector = input_vector
+		play_anim('run') 
+		velocity = input_vector.normalized() * speed
+		
 	else:
-#		animation_state.travel("Idle")
+		play_anim('idle')
 		velocity = Vector2.ZERO
 	
 	velocity = move_and_slide(velocity)
+	
+func play_anim(action: String): 
+	match last_input_vector:
+		Vector2(-1, 0), Vector2(-1, 1):
+			anim_player.play(action + '_down-left')
+		Vector2(0, 1):
+			anim_player.play(action + '_down')
+		Vector2(1, 0), Vector2(1, 1):
+			anim_player.play(action + '_down-right')
+		Vector2(-1, -1):
+			anim_player.play(action + '_up-left')
+		Vector2(0, -1):
+			anim_player.play(action + '_up')
+		Vector2(1, -1):
+			anim_player.play(action + '_up-right')
