@@ -8,8 +8,10 @@ var last_input_vector = Vector2(0, 1)
 
 func _physics_process(delta):
 	var input_vector = Vector2.ZERO
-	input_vector.x = Input.get_action_strength('ui_right') - Input.get_action_strength('ui_left')
-	input_vector.y = Input.get_action_strength('ui_down') - Input.get_action_strength('ui_up')
+	input_vector.x = int(Input.is_action_pressed('ui_right')) - int(Input.is_action_pressed('ui_left'))
+	input_vector.y = int(Input.is_action_pressed('ui_down')) - int(Input.is_action_pressed('ui_up'))
+	
+	print(input_vector)
 
 	if input_vector != Vector2.ZERO:
 		last_input_vector = input_vector
