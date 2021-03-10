@@ -1,9 +1,7 @@
 extends KinematicBody2D
 
-var DirVector = Globals.DirectionVector
 var DirString = Globals.DirectionString
-
-const speed = 50
+const speed = 3000
 
 onready var anim_player = $AnimationPlayer
 onready var gun = $Gun
@@ -12,6 +10,7 @@ var is_using_joystick = false
 var is_wielding = true 
 var mouse_direction = Vector2(0, 1)
 var last_move_direction = Vector2(0, 1)
+var last_joystick_direction = Vector2(0, 1)
 
 func _ready():
 	anim_player.play("idle_down") 
@@ -32,29 +31,34 @@ func _input(event):
 		if is_wielding: gun.aim_with_mouse(angle_to_cursor, event.position)
 
 			
-func _physics_process(_delta):
+func _physics_process(delta):
 	var move_direction = Vector2(
 		int(Input.is_action_pressed('ui_right')) - int(Input.is_action_pressed('ui_left')),  
 		int(Input.is_action_pressed('ui_down')) - int(Input.is_action_pressed('ui_up')))
 	
-	last_move_direction = move_direction
+	if move_direction != Vector2.ZERO: last_move_direction = move_direction
+	
+	var velocity = move_direction.normalized() * speed * delta
+	move_and_slide(velocity)
 	
 	var joystick_direction = Vector2(
 		int(Input.is_action_pressed('aim_right')) - int(Input.is_action_pressed('aim_left')), 
 		int(Input.is_action_pressed('aim_down')) - int(Input.is_action_pressed('aim_up')))
 	
-	is_using_joystick = joystick_direction != Vector2.ZERO
+	if joystick_direction != Vector2.ZERO:
+		last_joystick_direction = joystick_direction
+		is_using_joystick = true
 	
-	play_anim(move_direction, get_facing_direction(joystick_direction))
-	if is_wielding && is_using_joystick: gun.aim_with_joystick()
-	var velocity = move_direction.normalized() * speed
-	move_and_slide(velocity)
+	play_anim(move_direction, get_facing_direction())
+	
+	if is_wielding && is_using_joystick && joystick_direction != Vector2.ZERO:
+		gun.aim_with_joystick()
 	
 
-func get_facing_direction(joystick_direction):
+func get_facing_direction():
 	var facing_direction = last_move_direction
 	if is_wielding:
-		facing_direction = joystick_direction if is_using_joystick else mouse_direction
+		facing_direction = last_joystick_direction if is_using_joystick else mouse_direction
 	return facing_direction
 
 func play_anim(move_direction, facing_direction):
