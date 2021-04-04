@@ -1,25 +1,28 @@
 extends KinematicBody2D
 
 var DirString = Globals.DirectionString
-const speed = 3000
+const speed = 80
 
 onready var anim_player = $AnimationPlayer
 onready var gun = $Gun
 
+export var is_wielding = true 
 var is_using_joystick = false
-var is_wielding = true 
 var mouse_direction = Vector2(0, 1)
 var last_move_direction = Vector2(0, 1)
 var last_joystick_direction = Vector2(0, 1)
 
 func _ready():
+	randomize()
+	Globals.player = self
 	anim_player.play("idle_down") 
+	if !is_wielding:
+		gun.queue_free()
 
 func _input(event):
 	if event is InputEventMouseMotion:
 		is_using_joystick = false
-		var angle_to_cursor = get_angle_to(event.position)
-		
+		var angle_to_cursor = get_angle_to(get_global_mouse_position())
 		mouse_direction.x = 0
 		if angle_to_cursor >= -PI*3/8 && angle_to_cursor < PI*3/8:
 			mouse_direction.x = 1
@@ -28,7 +31,7 @@ func _input(event):
 
 		mouse_direction.y = -1 if angle_to_cursor > -PI && angle_to_cursor < 0 else 1
 		
-		if is_wielding: gun.aim_with_mouse(angle_to_cursor, event.position)
+		if is_wielding: gun.aim_with_mouse(angle_to_cursor, get_global_mouse_position())
 
 			
 func _physics_process(delta):
@@ -38,7 +41,7 @@ func _physics_process(delta):
 	
 	if move_direction != Vector2.ZERO: last_move_direction = move_direction
 	
-	var velocity = move_direction.normalized() * speed * delta
+	var velocity = move_direction.normalized() * speed 
 	move_and_slide(velocity)
 	
 	var joystick_direction = Vector2(

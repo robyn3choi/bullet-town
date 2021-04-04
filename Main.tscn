@@ -1,7 +1,85 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Player/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Environment/grass.png" type="Texture" id=2]
+[ext_resource path="res://Enemies/Sapling/Sapling.tscn" type="PackedScene" id=3]
+[ext_resource path="res://icon.png" type="Texture" id=4]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 35.6722, 331.654 )
 
 [node name="Main" type="Node"]
 
+[node name="Background" type="Sprite" parent="."]
+position = Vector2( 160, 90 )
+z_index = -1
+texture = ExtResource( 2 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 640, 360 )
+
 [node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 159.02, 91.1174 )
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+current = true
+smoothing_enabled = true
+
+[node name="wall" type="StaticBody2D" parent="."]
+position = Vector2( -186.065, 82.9458 )
+collision_mask = 0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="sprite" type="Sprite" parent="wall"]
+scale = Vector2( 1, 5.80005 )
+texture = ExtResource( 4 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="wall"]
+shape = SubResource( 1 )
+
+[node name="wall2" type="StaticBody2D" parent="."]
+position = Vector2( 512.391, 93.2984 )
+collision_mask = 0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="sprite" type="Sprite" parent="wall2"]
+scale = Vector2( 1, 5.80005 )
+texture = ExtResource( 4 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="wall2"]
+shape = SubResource( 1 )
+
+[node name="wall3" type="StaticBody2D" parent="."]
+position = Vector2( 172.826, -119.275 )
+rotation = 1.5708
+collision_mask = 0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="sprite" type="Sprite" parent="wall3"]
+scale = Vector2( 1, 9.09019 )
+texture = ExtResource( 4 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="wall3"]
+shape = SubResource( 1 )
+
+[node name="wall4" type="StaticBody2D" parent="."]
+position = Vector2( 172.826, 269.502 )
+rotation = 1.5708
+collision_mask = 0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="sprite" type="Sprite" parent="wall4"]
+scale = Vector2( 1, 9.09019 )
+texture = ExtResource( 4 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="wall4"]
+shape = SubResource( 1 )
+
+[node name="Enemy" parent="." instance=ExtResource( 3 )]

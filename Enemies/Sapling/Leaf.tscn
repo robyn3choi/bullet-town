@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Enemies/Sapling/leaf_light.png" type="Texture" id=1]
+[ext_resource path="res://Enemies/Sapling/Leaf.gd" type="Script" id=2]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 3.48101
+
+[node name="Leaf" type="Area2D"]
+visible = false
+script = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+[connection signal="body_entered" from="." to="." method="_on_Leaf_body_entered"]

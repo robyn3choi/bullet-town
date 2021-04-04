@@ -21,3 +21,5 @@ const DirectionString = {
 	Vector2(0, -1): "up",
 	Vector2(1, -1): "up-right"
 }
+
+var player

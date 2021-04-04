@@ -5,14 +5,14 @@ export var right_pos: Vector2
 
 onready var gun_sprite = $Sprite
 onready var muzzle_offset_y = $Sprite/Muzzle.global_position.y - global_position.y
-onready var bullet_pool = $BulletPool
+#onready var bullet_pool = $BulletPool
 onready var shoot_timer: Timer = $ShootTimer
-
+var bullet_scene = preload("res://Bullet/Bullet.tscn")
 var is_on_right = true
 var switch_buffer = 0
 var switch_disable_distance = 500
-
 var is_shooting = false
+var time_since_last_shoot = 0.0
 
 func _ready():
 	position = right_pos
@@ -24,6 +24,7 @@ func aim_with_mouse(angle_to_cursor, cursor_pos):
 	
 
 func aim_with_joystick():
+	print("joy")
 	var joystick_input = Vector2(
 		Input.get_action_strength('aim_right') - Input.get_action_strength('aim_left'),
 		Input.get_action_strength('aim_down') - Input.get_action_strength('aim_up'))
@@ -60,21 +61,22 @@ func look_at_target(cursor_pos):
 	look_at(look_at_pos)
 
 
-func _process(_delta):
-	if Input.is_action_pressed("shoot"):
+func _process(delta):
+	if Input.is_action_pressed("shoot") && shoot_timer.is_stopped():
 		is_shooting = true
-		if shoot_timer.is_stopped():
-			shoot()
-			shoot_timer.start()
+		shoot()
+		shoot_timer.start()
 	else:
-		is_shooting = false
-		if !shoot_timer.is_stopped():
-			shoot_timer.stop()	
-			
+		is_shooting = false 
+
+
 func shoot():
-	var bullet = bullet_pool.spawn()
-	bullet.set_position($Sprite/Muzzle.global_position)
-	bullet.shoot(get_global_mouse_position())
+	var bullet = bullet_scene.instance()
+	add_child(bullet)
+	bullet.global_position = ($Sprite/Muzzle.global_position)
+	bullet.shoot(rotation)
+
 
 func _on_ShootTimer_timeout() -> void:
-	shoot()
+	shoot() if is_shooting else shoot_timer.stop()
+
