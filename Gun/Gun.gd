@@ -72,8 +72,8 @@ func _process(delta):
 
 func shoot():
 	var bullet = bullet_scene.instance()
-	add_child(bullet)
-	bullet.global_position = ($Sprite/Muzzle.global_position)
+	get_tree().root.add_child(bullet)
+	bullet.position = ($Sprite/Muzzle.global_position)
 	bullet.shoot(rotation)
 
 

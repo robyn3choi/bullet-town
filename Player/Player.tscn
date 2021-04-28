@@ -1,12 +1,18 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://Player/Player.gd" type="Script" id=1]
+[ext_resource path="res://Shadows/ShadowMedium.png" type="Texture" id=2]
 [ext_resource path="res://Gun/Gun.tscn" type="PackedScene" id=3]
+[ext_resource path="res://common/Hurtbox.tscn" type="PackedScene" id=4]
+[ext_resource path="res://common/Health.tscn" type="PackedScene" id=5]
+[ext_resource path="res://MaterialsAndShaders/whiten_material.tres" type="Material" id=6]
+[ext_resource path="res://Player/Blinker.tscn" type="PackedScene" id=7]
 
 [sub_resource type="StreamTexture" id=1]
 load_path = "res://.import/player.png-e0de26b393baa489289b0e229c9561a8.stex"
 
 [sub_resource type="CapsuleShape2D" id=2]
+height = 13.9974
 
 [sub_resource type="Animation" id=3]
 length = 0.8
@@ -200,10 +206,18 @@ tracks/0/keys = {
 "values": [ Vector2( 16, 2 ), Vector2( 17, 2 ), Vector2( 18, 2 ), Vector2( 19, 2 ), Vector2( 20, 2 ), Vector2( 21, 2 ), Vector2( 22, 2 ), Vector2( 23, 2 ) ]
 }
 
+[sub_resource type="CapsuleShape2D" id=15]
+radius = 6.06475
+height = 10.042
+
 [node name="Player" type="KinematicBody2D"]
 position = Vector2( 87.6198, 58.9678 )
 collision_layer = 2
 script = ExtResource( 1 )
+
+[node name="ShadowSprite" type="Sprite" parent="."]
+position = Vector2( 0, 14.9726 )
+texture = ExtResource( 2 )
 
 [node name="Gun" parent="." instance=ExtResource( 3 )]
 position = Vector2( 7.689, 5.205 )
@@ -211,12 +225,15 @@ left_pos = Vector2( -7.689, 5.205 )
 right_pos = Vector2( 7.689, 5.205 )
 
 [node name="Sprite" type="Sprite" parent="."]
+material = ExtResource( 6 )
 texture = SubResource( 1 )
 vframes = 3
 hframes = 24
 frame = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2( -0.594116, 0.365604 )
 shape = SubResource( 2 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -232,3 +249,24 @@ anims/run_down-right = SubResource( 11 )
 anims/run_up = SubResource( 12 )
 anims/run_up-left = SubResource( 13 )
 anims/run_up-right = SubResource( 14 )
+
+[node name="Hurtbox" parent="." instance=ExtResource( 4 )]
+visible = false
+collision_layer = 0
+collision_mask = 20
+whiten_material = ExtResource( 6 )
+
+[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+position = Vector2( -0.639816, 1.18823 )
+shape = SubResource( 15 )
+
+[node name="Health" parent="." instance=ExtResource( 5 )]
+max_health = 3
+
+[node name="Blinker" parent="." instance=ExtResource( 7 )]
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
+[connection signal="no_health" from="Health" to="." method="_on_Health_no_health"]
+
+[editable path="Hurtbox"]
+
+[editable path="Health"]

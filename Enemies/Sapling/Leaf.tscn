@@ -8,6 +8,8 @@ radius = 3.48101
 
 [node name="Leaf" type="Area2D"]
 visible = false
+collision_layer = 16
+collision_mask = 0
 script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

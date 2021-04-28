@@ -3,7 +3,7 @@ extends Area2D
 const speed = 100
 const rotation_speed = 15
 
-export (Texture) var texture
+export var texture: Texture
 
 var initial_position
 var is_attacking = false
@@ -23,7 +23,6 @@ func _process(delta):
 
 
 func spawn():
-	rotation = 0
 	visible = true
 
 
@@ -36,6 +35,7 @@ func recycle():
 	is_attacking = false
 	visible = false
 	position = initial_position
+	rotation = 0
 
 
 func _on_Leaf_body_entered(body: Node) -> void:
