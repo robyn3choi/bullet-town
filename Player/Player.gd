@@ -1,7 +1,9 @@
 extends KinematicBody2D
 
 var DirString = Globals.DirectionString
-const speed = 80
+const speed = 5000
+const dash_speed = 20000
+const dash_duration = 0.15
 const invincibility_duration = 1.2
 
 onready var anim_player = $AnimationPlayer
@@ -9,6 +11,7 @@ onready var gun = $Gun
 onready var health = $Health
 onready var hurtbox = $Hurtbox
 onready var blinker = $Blinker
+onready var dash = $Dash
 
 export var is_wielding = true
 var is_using_joystick = false
@@ -22,6 +25,7 @@ func _ready():
 
 	Globals.player = self
 	anim_player.play("idle_down")
+
 	if ! is_wielding:
 		gun.queue_free()
 
@@ -48,10 +52,25 @@ func _physics_process(delta):
 		int(Input.is_action_pressed('ui_down')) - int(Input.is_action_pressed('ui_up'))
 	)
 
+	if (
+		Input.is_action_just_pressed("dash")
+		&& dash.can_dash
+		&& ! dash.is_dashing()
+		&& move_direction != Vector2.ZERO
+	):
+		dash.start_dash($Sprite, dash_duration, move_direction)
+		hurtbox.is_invincible = true
+		last_move_direction = move_direction
+
+	if dash.is_dashing():
+		var velocity = last_move_direction.normalized() * dash_speed * delta
+		move_and_slide(velocity)
+		return
+
 	if move_direction != Vector2.ZERO:
 		last_move_direction = move_direction
 
-	var velocity = move_direction.normalized() * speed
+	var velocity = move_direction.normalized() * speed * delta
 	move_and_slide(velocity)
 
 	var joystick_direction = Vector2(
@@ -98,11 +117,16 @@ func should_play_anim_backwards(move_direction, facing_direction):
 
 
 func _on_Hurtbox_area_entered(area: Area2D) -> void:
-	if !hurtbox.is_invincible:
-		health.current_health -= 0.25
-		hurtbox.start_invincibility(invincibility_duration)
+	if ! hurtbox.is_invincible:
+		health.current_health -= 0.5
+		hurtbox.start_invincibility_blink(invincibility_duration)
 		blinker.start_blinking(self, invincibility_duration)
+		Globals.camera.start_shake()
 
 
 func _on_Health_no_health() -> void:
 	print("dead")
+
+
+func _on_Dash_dash_ended() -> void:
+	 hurtbox.is_invincible = false

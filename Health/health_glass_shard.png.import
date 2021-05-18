@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/heart_0.25.png-acd993126e41d522a3536753d35e5cc7.stex"
+path="res://.import/health_glass_shard.png-4b410ba0beb310e1ba13b4244b3a47e6.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Player/Health/heart_0.25.png"
-dest_files=[ "res://.import/heart_0.25.png-acd993126e41d522a3536753d35e5cc7.stex" ]
+source_file="res://Health/health_glass_shard.png"
+dest_files=[ "res://.import/health_glass_shard.png-4b410ba0beb310e1ba13b4244b3a47e6.stex" ]
 
 [params]
 

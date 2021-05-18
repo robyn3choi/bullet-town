@@ -6,3 +6,4 @@
 resource_local_to_scene = true
 shader = ExtResource( 1 )
 shader_param/whiten = false
+shader_param/mix_weight = 0.6

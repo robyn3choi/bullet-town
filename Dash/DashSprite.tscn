@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Dash/DashSprite.gd" type="Script" id=1]
+[ext_resource path="res://MaterialsAndShaders/whiten_material.tres" type="Material" id=2]
+
+[node name="Sprite" type="Sprite"]
+material = ExtResource( 2 )
+z_index = -1
+script = ExtResource( 1 )

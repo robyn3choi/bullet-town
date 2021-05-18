@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/health_head_small.png-57af6cb4483223bdb5967a26778c0d94.stex"
+path="res://.import/dust-cloud.png-82a3e16143087c7e38660da4a832461f.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Player/health_head_small.png"
-dest_files=[ "res://.import/health_head_small.png-57af6cb4483223bdb5967a26778c0d94.stex" ]
+source_file="res://Dash/dust-cloud.png"
+dest_files=[ "res://.import/dust-cloud.png-82a3e16143087c7e38660da4a832461f.stex" ]
 
 [params]
 

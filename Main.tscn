@@ -1,43 +1,46 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Player/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Environment/grass.png" type="Texture" id=2]
 [ext_resource path="res://Enemies/Sapling/Sapling.tscn" type="PackedScene" id=3]
 [ext_resource path="res://icon.png" type="Texture" id=4]
-[ext_resource path="res://Player/health_head_small.png" type="Texture" id=5]
-[ext_resource path="res://Player/Health/heart_1.png" type="Texture" id=6]
-[ext_resource path="res://Player/Health/Heart.tscn" type="PackedScene" id=9]
-[ext_resource path="res://Player/Health/HealthUI.gd" type="Script" id=10]
+[ext_resource path="res://Health/health_glass_0.5_alt.png" type="Texture" id=5]
+[ext_resource path="res://Camera.gd" type="Script" id=6]
+[ext_resource path="res://Health/Heart.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Health/HealthUI.gd" type="Script" id=10]
 [ext_resource path="res://MaterialsAndShaders/whiten.shader" type="Shader" id=11]
 
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
 shader = ExtResource( 11 )
 shader_param/whiten = false
+shader_param/mix_weight = 0.6
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 35.6722, 331.654 )
 
 [sub_resource type="StreamTexture" id=3]
-load_path = "res://.import/heart_0.25.png-acd993126e41d522a3536753d35e5cc7.stex"
+load_path = "res://.import/heart_1.png-ff94cf1b11230e26fde37daa761dd348.stex"
 
 [sub_resource type="StreamTexture" id=4]
-load_path = "res://.import/heart_0.5.png-20f708b6f05cd2b9f49a398a9bfd0a30.stex"
+load_path = "res://.import/heart_0.25.png-acd993126e41d522a3536753d35e5cc7.stex"
 
 [sub_resource type="StreamTexture" id=5]
 load_path = "res://.import/heart_0.75.png-25e320466a41bed357c0c847cbfe750c.stex"
 
+[sub_resource type="StreamTexture" id=6]
+
 [node name="Main" type="Node"]
 
 [node name="Background" type="Sprite" parent="."]
-position = Vector2( 58.9872, 126.681 )
+position = Vector2( 81.3989, 81.0426 )
 z_index = -1
 texture = ExtResource( 2 )
 region_enabled = true
 region_rect = Rect2( 0, 0, 640, 360 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( 159.02, 91.1174 )
+position = Vector2( 107.674, 101.887 )
 
 [node name="Sprite" parent="Player" index="2"]
 material = SubResource( 1 )
@@ -48,6 +51,12 @@ whiten_material = SubResource( 1 )
 [node name="Camera2D" type="Camera2D" parent="Player"]
 current = true
 smoothing_enabled = true
+script = ExtResource( 6 )
+
+[node name="ShakeTween" type="Tween" parent="Player/Camera2D"]
+
+[node name="DurationTimer" type="Timer" parent="Player/Camera2D"]
+one_shot = true
 
 [node name="wall" type="StaticBody2D" parent="."]
 position = Vector2( -186.065, 82.9458 )
@@ -108,19 +117,24 @@ texture = ExtResource( 4 )
 shape = SubResource( 2 )
 
 [node name="Sapling" parent="." instance=ExtResource( 3 )]
-position = Vector2( 25.6716, 177.256 )
+position = Vector2( 299.094, 92.0917 )
 
 [node name="Sapling2" parent="." instance=ExtResource( 3 )]
-position = Vector2( 294.257, 158.581 )
+position = Vector2( 257.123, 92.0918 )
+
+[node name="Sapling3" parent="." instance=ExtResource( 3 )]
+position = Vector2( 193.593, 134.203 )
+
+[node name="Sapling4" parent="." instance=ExtResource( 3 )]
+position = Vector2( 342.798, 22.7533 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="HealthUI" type="HBoxContainer" parent="CanvasLayer"]
-visible = false
-margin_left = 5.0
-margin_top = 5.0
-margin_right = 133.841
-margin_bottom = 47.159
+margin_left = 10.0
+margin_top = 7.0
+margin_right = 142.191
+margin_bottom = 52.2414
 custom_constants/separation = 18
 script = ExtResource( 10 )
 __meta__ = {
@@ -128,37 +142,38 @@ __meta__ = {
 }
 
 [node name="Heart" parent="CanvasLayer/HealthUI" instance=ExtResource( 9 )]
-margin_bottom = 42.0
+margin_bottom = 45.0
 textures = {
-1: ExtResource( 6 ),
-0.25: SubResource( 3 ),
-0.5: SubResource( 4 ),
+1: SubResource( 3 ),
+0.25: SubResource( 4 ),
+0.5: ExtResource( 5 ),
 0.75: SubResource( 5 )
 }
 
 [node name="Heart2" parent="CanvasLayer/HealthUI" instance=ExtResource( 9 )]
 margin_left = 18.0
 margin_right = 18.0
-margin_bottom = 42.0
+margin_bottom = 45.0
 textures = {
-1: ExtResource( 6 ),
-0.25: SubResource( 3 ),
-0.5: SubResource( 4 ),
+1: SubResource( 3 ),
+0.25: SubResource( 4 ),
+0.5: ExtResource( 5 ),
 0.75: SubResource( 5 )
 }
 
 [node name="Heart3" parent="CanvasLayer/HealthUI" instance=ExtResource( 9 )]
 margin_left = 36.0
 margin_right = 36.0
-margin_bottom = 42.0
+margin_bottom = 45.0
 textures = {
-1: ExtResource( 6 ),
-0.25: SubResource( 3 ),
-0.5: SubResource( 4 ),
+1: SubResource( 3 ),
+0.25: SubResource( 4 ),
+0.5: ExtResource( 5 ),
 0.75: SubResource( 5 )
 }
 
 [node name="HealthUI2" type="HBoxContainer" parent="CanvasLayer"]
+visible = false
 margin_left = 5.0
 margin_top = 5.0
 margin_right = 133.841
@@ -171,19 +186,25 @@ __meta__ = {
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/HealthUI2"]
 margin_right = 13.0
 margin_bottom = 42.0
-texture = ExtResource( 5 )
+texture = SubResource( 6 )
 
 [node name="TextureRect2" type="TextureRect" parent="CanvasLayer/HealthUI2"]
 margin_left = 17.0
 margin_right = 30.0
 margin_bottom = 42.0
-texture = ExtResource( 5 )
+texture = SubResource( 6 )
 
 [node name="TextureRect3" type="TextureRect" parent="CanvasLayer/HealthUI2"]
 margin_left = 34.0
 margin_right = 47.0
 margin_bottom = 42.0
-texture = ExtResource( 5 )
+texture = SubResource( 6 )
+
 [connection signal="health_changed" from="Player/Health" to="CanvasLayer/HealthUI" method="_on_Health_health_changed"]
+[connection signal="tween_completed" from="Player/Camera2D/ShakeTween" to="Player/Camera2D" method="_on_ShakeTween_tween_completed"]
+[connection signal="timeout" from="Player/Camera2D/DurationTimer" to="Player/Camera2D" method="_on_DurationTimer_timeout"]
 
 [editable path="Player"]
+[editable path="Player/Hurtbox"]
+[editable path="Player/Health"]
+[editable path="Player/Dash"]

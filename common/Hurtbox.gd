@@ -3,14 +3,19 @@ extends Area2D
 export (ShaderMaterial) var whiten_material
 onready var collision_shape = $CollisionShape2D
 const whiten_duration = 0.15
-var is_invincible = false
+var is_invincible = false setget set_is_invincible
+
+func set_is_invincible(value):
+	is_invincible = value
+	if is_invincible:
+		collision_shape.set_deferred("disabled", true)
+	else:
+		collision_shape.set_deferred("disabled", false)
 
 
-func start_invincibility(invincibility_duration):
+func start_invincibility_blink(invincibility_duration):
 	is_invincible = true
-	collision_shape.set_deferred("disabled", true)
 	yield(get_tree().create_timer(invincibility_duration), "timeout")
-	collision_shape.set_deferred("disabled", false)
 	is_invincible = false
 
 

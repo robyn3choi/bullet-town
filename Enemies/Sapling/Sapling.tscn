@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=45 format=2]
 
 [ext_resource path="res://Enemies/Sapling/sapling.png" type="Texture" id=1]
 [ext_resource path="res://Enemies/SoftCollision.tscn" type="PackedScene" id=2]
@@ -9,6 +9,43 @@
 [ext_resource path="res://Shadows/ShadowMedium.png" type="Texture" id=7]
 [ext_resource path="res://common/Hurtbox.tscn" type="PackedScene" id=8]
 [ext_resource path="res://MaterialsAndShaders/whiten_material.tres" type="Material" id=9]
+[ext_resource path="res://Enemies/Sapling/sapling_shard.png" type="Texture" id=10]
+[ext_resource path="res://Enemies/Sapling/sapling_shard2.png" type="Texture" id=11]
+[ext_resource path="res://common/Health.tscn" type="PackedScene" id=12]
+[ext_resource path="res://common/gradient_white-to-clear.tres" type="Texture" id=13]
+
+[sub_resource type="ParticlesMaterial" id=25]
+emission_shape = 1
+emission_sphere_radius = 4.81
+flag_disable_z = true
+spread = 31.45
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 127.24
+initial_velocity_random = 0.46
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = -100.0
+damping = 100.0
+angle = 720.0
+angle_random = 1.0
+color_ramp = ExtResource( 13 )
+
+[sub_resource type="ParticlesMaterial" id=31]
+emission_shape = 1
+emission_sphere_radius = 4.81
+flag_disable_z = true
+spread = 55.52
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 152.86
+initial_velocity_random = 0.35
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = -100.0
+radial_accel = -98.0
+damping = 100.0
+angle = 720.0
+angle_random = 1.0
+color_ramp = ExtResource( 13 )
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 12.5312
@@ -72,6 +109,49 @@ tracks/1/keys = {
 "args": [  ],
 "method": "start_attack"
 } ]
+}
+
+[sub_resource type="Animation" id=26]
+resource_name = "death"
+length = 1.5
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9, 1.05, 1.2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 26, 27, 28, 29, 30, 31, 32, 33, 34 ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 1.5 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "finish_death"
+} ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Sprite:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 1.2, 1.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
 [sub_resource type="Animation" id=4]
@@ -250,6 +330,9 @@ blend_point_0/pos = -0.01
 blend_point_1/node = SubResource( 9 )
 blend_point_1/pos = 0.01
 
+[sub_resource type="AnimationNodeAnimation" id=27]
+animation = "death"
+
 [sub_resource type="AnimationNodeAnimation" id=11]
 animation = "recover_up"
 
@@ -285,16 +368,27 @@ switch_mode = 2
 [sub_resource type="AnimationNodeStateMachineTransition" id=20]
 switch_mode = 2
 
+[sub_resource type="AnimationNodeStateMachineTransition" id=28]
+advance_condition = "die"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=29]
+advance_condition = "die"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=30]
+advance_condition = "die"
+
 [sub_resource type="AnimationNodeStateMachine" id=21]
 states/attack/node = SubResource( 10 )
-states/attack/position = Vector2( 324.174, 87.9374 )
+states/attack/position = Vector2( 381.866, 208.707 )
+states/die/node = SubResource( 27 )
+states/die/position = Vector2( 195.154, -18.0723 )
 states/recover/node = SubResource( 13 )
 states/recover/position = Vector2( 13.7392, 224.913 )
 states/run/node = SubResource( 16 )
 states/run/position = Vector2( -68.8695, 72.7391 )
-transitions = [ "run", "attack", SubResource( 17 ), "attack", "recover", SubResource( 18 ), "recover", "run", SubResource( 19 ), "recover", "attack", SubResource( 20 ) ]
+transitions = [ "run", "attack", SubResource( 17 ), "attack", "recover", SubResource( 18 ), "recover", "run", SubResource( 19 ), "recover", "attack", SubResource( 20 ), "run", "die", SubResource( 28 ), "attack", "die", SubResource( 29 ), "recover", "die", SubResource( 30 ) ]
 start_node = "run"
-graph_offset = Vector2( -524, -32.6877 )
+graph_offset = Vector2( -232, -73.6877 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=22]
 
@@ -308,6 +402,27 @@ height = 12.0
 [node name="Sapling" type="KinematicBody2D"]
 collision_layer = 4
 script = ExtResource( 3 )
+__meta__ = {
+"_edit_vertical_guides_": [ -110.0 ]
+}
+
+[node name="Shards1" type="Particles2D" parent="."]
+position = Vector2( 0, 6 )
+emitting = false
+lifetime = 1.5
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource( 25 )
+texture = ExtResource( 10 )
+
+[node name="Shards2" type="Particles2D" parent="."]
+position = Vector2( 0, 6 )
+emitting = false
+lifetime = 1.5
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource( 31 )
+texture = ExtResource( 11 )
 
 [node name="ShadowSprite" type="Sprite" parent="."]
 position = Vector2( 0, 18 )
@@ -316,8 +431,8 @@ texture = ExtResource( 7 )
 [node name="Sprite" type="Sprite" parent="."]
 material = ExtResource( 9 )
 texture = ExtResource( 1 )
-hframes = 26
-frame = 2
+hframes = 35
+frame = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
@@ -334,6 +449,7 @@ one_shot = true
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/attack_down = SubResource( 2 )
 anims/attack_up = SubResource( 3 )
+anims/death = SubResource( 26 )
 anims/recover_down = SubResource( 4 )
 anims/recover_up = SubResource( 5 )
 anims/run_down = SubResource( 6 )
@@ -345,6 +461,7 @@ anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/playback = SubResource( 22 )
 parameters/conditions/attack = false
+parameters/conditions/die = false
 parameters/attack/blend_position = 0
 parameters/recover/blend_position = 0.0
 parameters/run/blend_position = 0.414453
@@ -385,13 +502,21 @@ visible = false
 shape = SubResource( 23 )
 
 [node name="Hurtbox" parent="." instance=ExtResource( 8 )]
+visible = false
+collision_layer = 0
+collision_mask = 32
 whiten_material = ExtResource( 9 )
 
 [node name="CollisionShape2D" parent="Hurtbox" index="0"]
 shape = SubResource( 24 )
+
+[node name="Health" parent="." instance=ExtResource( 12 )]
+max_health = 4
+
 [connection signal="timeout" from="LeafShootTimer" to="." method="_on_LeafShootTimer_timeout"]
 [connection signal="timeout" from="AttackDurationTimer" to="." method="_on_AttackDurationTimer_timeout"]
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
+[connection signal="no_health" from="Health" to="." method="_on_Health_no_health"]
 
 [editable path="SoftCollision"]
-
 [editable path="Hurtbox"]

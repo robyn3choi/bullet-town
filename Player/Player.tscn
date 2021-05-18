@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Shadows/ShadowMedium.png" type="Texture" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://common/Health.tscn" type="PackedScene" id=5]
 [ext_resource path="res://MaterialsAndShaders/whiten_material.tres" type="Material" id=6]
 [ext_resource path="res://Player/Blinker.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Dash/Dash.tscn" type="PackedScene" id=8]
 
 [sub_resource type="StreamTexture" id=1]
 load_path = "res://.import/player.png-e0de26b393baa489289b0e229c9561a8.stex"
@@ -211,9 +212,12 @@ radius = 6.06475
 height = 10.042
 
 [node name="Player" type="KinematicBody2D"]
-position = Vector2( 87.6198, 58.9678 )
+position = Vector2( 87.6626, 57.7685 )
 collision_layer = 2
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="ShadowSprite" type="Sprite" parent="."]
 position = Vector2( 0, 14.9726 )
@@ -227,8 +231,8 @@ right_pos = Vector2( 7.689, 5.205 )
 [node name="Sprite" type="Sprite" parent="."]
 material = ExtResource( 6 )
 texture = SubResource( 1 )
-vframes = 3
 hframes = 24
+vframes = 3
 frame = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -264,9 +268,19 @@ shape = SubResource( 15 )
 max_health = 3
 
 [node name="Blinker" parent="." instance=ExtResource( 7 )]
+
+[node name="Dash" parent="." instance=ExtResource( 8 )]
+
+[node name="DustParticles" parent="Dash" index="2"]
+position = Vector2( -0.27227, 13.2717 )
+
+[node name="DustBurstParticles" parent="Dash" index="3"]
+position = Vector2( -0.256989, 10.1025 )
+
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
 [connection signal="no_health" from="Health" to="." method="_on_Health_no_health"]
+[connection signal="dash_ended" from="Dash" to="." method="_on_Dash_dash_ended"]
 
 [editable path="Hurtbox"]
-
 [editable path="Health"]
+[editable path="Dash"]

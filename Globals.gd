@@ -23,3 +23,5 @@ const DirectionString = {
 }
 
 var player
+
+var camera

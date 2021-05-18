@@ -13,5 +13,4 @@ func shoot(aim_angle):
 
 
 func _on_Bullet_body_entered(body: Node) -> void:
-	if body.collision_layer == 1:
 		queue_free()
