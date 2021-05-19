@@ -108,7 +108,9 @@ func _on_Hurtbox_area_entered(area: Area2D) -> void:
 
 func _on_Health_no_health() -> void:
 	is_dead = true
+	Globals.camera.start_shake(0.15, 1.5)
 	$Hurtbox.is_invincible = true
+	$CollisionShape2D.set_deferred("disabled", true)
 	
 	if is_attacking:
 		$Sprite.visible = false

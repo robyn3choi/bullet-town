@@ -14,7 +14,7 @@
 [ext_resource path="res://common/Health.tscn" type="PackedScene" id=12]
 [ext_resource path="res://common/gradient_white-to-clear.tres" type="Texture" id=13]
 
-[sub_resource type="ParticlesMaterial" id=25]
+[sub_resource type="ParticlesMaterial" id=1]
 emission_shape = 1
 emission_sphere_radius = 4.81
 flag_disable_z = true
@@ -30,7 +30,7 @@ angle = 720.0
 angle_random = 1.0
 color_ramp = ExtResource( 13 )
 
-[sub_resource type="ParticlesMaterial" id=31]
+[sub_resource type="ParticlesMaterial" id=2]
 emission_shape = 1
 emission_sphere_radius = 4.81
 flag_disable_z = true
@@ -47,12 +47,11 @@ angle = 720.0
 angle_random = 1.0
 color_ramp = ExtResource( 13 )
 
-[sub_resource type="CapsuleShape2D" id=1]
+[sub_resource type="CapsuleShape2D" id=3]
 radius = 12.5312
 height = 2.13113
 
-[sub_resource type="Animation" id=2]
-resource_name = "attack_down"
+[sub_resource type="Animation" id=4]
 length = 0.9
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -81,8 +80,7 @@ tracks/1/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=3]
-resource_name = "attack_up"
+[sub_resource type="Animation" id=5]
 length = 0.9
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -111,9 +109,9 @@ tracks/1/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=26]
+[sub_resource type="Animation" id=6]
 resource_name = "death"
-length = 1.5
+length = 1.25
 step = 0.05
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -122,10 +120,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9, 1.05, 1.2 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 26, 27, 28, 29, 30, 31, 32, 33, 34 ]
+"values": [ 26, 27, 28, 29, 30, 31, 32 ]
 }
 tracks/1/type = "method"
 tracks/1/path = NodePath(".")
@@ -134,7 +132,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 1.5 ),
+"times": PoolRealArray( 1.25 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [  ],
@@ -148,14 +146,13 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 1.2, 1.5 ),
+"times": PoolRealArray( 1, 1.25 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="Animation" id=4]
-resource_name = "recover_down"
+[sub_resource type="Animation" id=7]
 length = 1.2
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -184,8 +181,7 @@ tracks/1/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=5]
-resource_name = "recover_up"
+[sub_resource type="Animation" id=8]
 length = 1.2
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -214,7 +210,7 @@ tracks/1/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=9]
 length = 0.9
 loop = true
 step = 0.05
@@ -278,7 +274,7 @@ tracks/3/keys = {
 "values": [ Vector2( 5, 0 ), Vector2( 5, 0 ), Vector2( 0, 0 ), Vector2( -4, 0 ), Vector2( -4, 0 ), Vector2( 0, 0 ) ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=10]
 length = 0.9
 loop = true
 step = 0.05
@@ -318,26 +314,11 @@ tracks/1/keys = {
 } ]
 }
 
-[sub_resource type="AnimationNodeAnimation" id=8]
+[sub_resource type="AnimationNodeAnimation" id=11]
 animation = "attack_up"
 
-[sub_resource type="AnimationNodeAnimation" id=9]
-animation = "attack_down"
-
-[sub_resource type="AnimationNodeBlendSpace1D" id=10]
-blend_point_0/node = SubResource( 8 )
-blend_point_0/pos = -0.01
-blend_point_1/node = SubResource( 9 )
-blend_point_1/pos = 0.01
-
-[sub_resource type="AnimationNodeAnimation" id=27]
-animation = "death"
-
-[sub_resource type="AnimationNodeAnimation" id=11]
-animation = "recover_up"
-
 [sub_resource type="AnimationNodeAnimation" id=12]
-animation = "recover_down"
+animation = "attack_down"
 
 [sub_resource type="AnimationNodeBlendSpace1D" id=13]
 blend_point_0/node = SubResource( 11 )
@@ -346,56 +327,71 @@ blend_point_1/node = SubResource( 12 )
 blend_point_1/pos = 0.01
 
 [sub_resource type="AnimationNodeAnimation" id=14]
-animation = "run_down"
+animation = "death"
 
 [sub_resource type="AnimationNodeAnimation" id=15]
+animation = "recover_up"
+
+[sub_resource type="AnimationNodeAnimation" id=16]
+animation = "recover_down"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id=17]
+blend_point_0/node = SubResource( 15 )
+blend_point_0/pos = -0.01
+blend_point_1/node = SubResource( 16 )
+blend_point_1/pos = 0.01
+
+[sub_resource type="AnimationNodeAnimation" id=18]
+animation = "run_down"
+
+[sub_resource type="AnimationNodeAnimation" id=19]
 animation = "run_up"
 
-[sub_resource type="AnimationNodeBlendSpace1D" id=16]
-blend_point_0/node = SubResource( 14 )
+[sub_resource type="AnimationNodeBlendSpace1D" id=20]
+blend_point_0/node = SubResource( 18 )
 blend_point_0/pos = 0.01
-blend_point_1/node = SubResource( 15 )
+blend_point_1/node = SubResource( 19 )
 blend_point_1/pos = -0.01
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=17]
+[sub_resource type="AnimationNodeStateMachineTransition" id=21]
 advance_condition = "attack"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=18]
+[sub_resource type="AnimationNodeStateMachineTransition" id=22]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=19]
+[sub_resource type="AnimationNodeStateMachineTransition" id=23]
 switch_mode = 2
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=20]
+[sub_resource type="AnimationNodeStateMachineTransition" id=24]
 switch_mode = 2
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=28]
+[sub_resource type="AnimationNodeStateMachineTransition" id=25]
 advance_condition = "die"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=29]
+[sub_resource type="AnimationNodeStateMachineTransition" id=26]
 advance_condition = "die"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=30]
+[sub_resource type="AnimationNodeStateMachineTransition" id=27]
 advance_condition = "die"
 
-[sub_resource type="AnimationNodeStateMachine" id=21]
-states/attack/node = SubResource( 10 )
+[sub_resource type="AnimationNodeStateMachine" id=28]
+states/attack/node = SubResource( 13 )
 states/attack/position = Vector2( 381.866, 208.707 )
-states/die/node = SubResource( 27 )
+states/die/node = SubResource( 14 )
 states/die/position = Vector2( 195.154, -18.0723 )
-states/recover/node = SubResource( 13 )
+states/recover/node = SubResource( 17 )
 states/recover/position = Vector2( 13.7392, 224.913 )
-states/run/node = SubResource( 16 )
+states/run/node = SubResource( 20 )
 states/run/position = Vector2( -68.8695, 72.7391 )
-transitions = [ "run", "attack", SubResource( 17 ), "attack", "recover", SubResource( 18 ), "recover", "run", SubResource( 19 ), "recover", "attack", SubResource( 20 ), "run", "die", SubResource( 28 ), "attack", "die", SubResource( 29 ), "recover", "die", SubResource( 30 ) ]
+transitions = [ "run", "attack", SubResource( 21 ), "attack", "recover", SubResource( 22 ), "recover", "run", SubResource( 23 ), "recover", "attack", SubResource( 24 ), "run", "die", SubResource( 25 ), "attack", "die", SubResource( 26 ), "recover", "die", SubResource( 27 ) ]
 start_node = "run"
 graph_offset = Vector2( -232, -73.6877 )
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=22]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=29]
 
-[sub_resource type="CircleShape2D" id=23]
+[sub_resource type="CircleShape2D" id=30]
 radius = 21.0
 
-[sub_resource type="CapsuleShape2D" id=24]
+[sub_resource type="CapsuleShape2D" id=31]
 radius = 14.0
 height = 12.0
 
@@ -409,19 +405,19 @@ __meta__ = {
 [node name="Shards1" type="Particles2D" parent="."]
 position = Vector2( 0, 6 )
 emitting = false
-lifetime = 1.5
+lifetime = 1.25
 one_shot = true
 explosiveness = 1.0
-process_material = SubResource( 25 )
+process_material = SubResource( 1 )
 texture = ExtResource( 10 )
 
 [node name="Shards2" type="Particles2D" parent="."]
 position = Vector2( 0, 6 )
 emitting = false
-lifetime = 1.5
+lifetime = 1.25
 one_shot = true
 explosiveness = 1.0
-process_material = SubResource( 31 )
+process_material = SubResource( 2 )
 texture = ExtResource( 11 )
 
 [node name="ShadowSprite" type="Sprite" parent="."]
@@ -431,12 +427,12 @@ texture = ExtResource( 7 )
 [node name="Sprite" type="Sprite" parent="."]
 material = ExtResource( 9 )
 texture = ExtResource( 1 )
-hframes = 35
+hframes = 33
 frame = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
-shape = SubResource( 1 )
+shape = SubResource( 3 )
 
 [node name="LeafShootTimer" type="Timer" parent="."]
 wait_time = 0.5
@@ -447,19 +443,19 @@ wait_time = 4.0
 one_shot = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/attack_down = SubResource( 2 )
-anims/attack_up = SubResource( 3 )
-anims/death = SubResource( 26 )
-anims/recover_down = SubResource( 4 )
-anims/recover_up = SubResource( 5 )
-anims/run_down = SubResource( 6 )
-anims/run_up = SubResource( 7 )
+anims/attack_down = SubResource( 4 )
+anims/attack_up = SubResource( 5 )
+anims/death = SubResource( 6 )
+anims/recover_down = SubResource( 7 )
+anims/recover_up = SubResource( 8 )
+anims/run_down = SubResource( 9 )
+anims/run_up = SubResource( 10 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 21 )
+tree_root = SubResource( 28 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
-parameters/playback = SubResource( 22 )
+parameters/playback = SubResource( 29 )
 parameters/conditions/attack = false
 parameters/conditions/die = false
 parameters/attack/blend_position = 0
@@ -499,7 +495,7 @@ texture = ExtResource( 4 )
 visible = false
 
 [node name="CollisionShape2D" parent="SoftCollision" index="0"]
-shape = SubResource( 23 )
+shape = SubResource( 30 )
 
 [node name="Hurtbox" parent="." instance=ExtResource( 8 )]
 visible = false
@@ -508,7 +504,7 @@ collision_mask = 32
 whiten_material = ExtResource( 9 )
 
 [node name="CollisionShape2D" parent="Hurtbox" index="0"]
-shape = SubResource( 24 )
+shape = SubResource( 31 )
 
 [node name="Health" parent="." instance=ExtResource( 12 )]
 max_health = 4

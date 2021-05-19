@@ -11,7 +11,7 @@ func _ready() -> void:
 	Globals.camera = self
 
 
-func start_shake(duration = 0.2, frequency = 1, amp = 2):
+func start_shake(duration = 0.2, amp = 2):
 	if amp > amplitude:
 		is_shaking = true
 		amplitude = amp
