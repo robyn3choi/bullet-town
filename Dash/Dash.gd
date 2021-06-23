@@ -24,6 +24,8 @@ func is_dashing():
 
 
 func start_dash(sprite, duration, direction: Vector2):
+#	Globals.camera.start_shake(0.1, 1.5)
+	
 	duration_timer.wait_time = duration
 	original_sprite = sprite
 	sprite.material.set_shader_param("mix_weight", 0.7)

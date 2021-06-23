@@ -1,23 +1,156 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=18 format=2]
 
-[ext_resource path="res://Gun/gun.png" type="Texture" id=1]
+[ext_resource path="res://Gun/gun_wood.png" type="Texture" id=1]
 [ext_resource path="res://Gun/Gun.gd" type="Script" id=2]
+[ext_resource path="res://Gun/gun_wood_blast.png" type="Texture" id=3]
+[ext_resource path="res://Gun/testdust.png" type="Texture" id=4]
+[ext_resource path="res://Gun/testtwigt.png" type="Texture" id=5]
+
+[sub_resource type="Animation" id=1]
+resource_name = "shoot_left"
+length = 0.2
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Pivot:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05, 0.15 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 35.0, 0.0 ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "shoot_right"
+length = 0.2
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Pivot:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05, 0.15 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, -35.0, 0.0 ]
+}
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 14, 16 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 3 )
+region = Rect2( 14, 0, 14, 16 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 3 )
+region = Rect2( 28, 0, 14, 16 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 3 )
+region = Rect2( 42, 0, 14, 16 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 3 )
+region = Rect2( 56, 0, 14, 16 )
+
+[sub_resource type="SpriteFrames" id=8]
+animations = [ {
+"frames": [ SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ) ],
+"loop": true,
+"name": "default",
+"speed": 12.0
+} ]
+
+[sub_resource type="Gradient" id=9]
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture" id=10]
+gradient = SubResource( 9 )
+
+[sub_resource type="ParticlesMaterial" id=11]
+flag_disable_z = true
+spread = 75.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 25.0
+angular_velocity = 100.0
+angular_velocity_random = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+angle = 720.0
+angle_random = 1.0
+color_ramp = SubResource( 10 )
+
+[sub_resource type="ParticlesMaterial" id=12]
+flag_disable_z = true
+spread = 75.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 60.0
+initial_velocity_random = 0.47
+angular_velocity = 720.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+angle = 720.0
+angle_random = 1.0
 
 [node name="Gun" type="Node2D"]
 script = ExtResource( 2 )
 
-[node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 3.98063, -2.34861 )
+[node name="Pivot" type="Node2D" parent="."]
+
+[node name="Sprite" type="Sprite" parent="Pivot"]
+position = Vector2( 3.981, -2.349 )
 texture = ExtResource( 1 )
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Muzzle" type="Node2D" parent="Sprite"]
-position = Vector2( 4.74012, -1.66999 )
+[node name="Muzzle" type="Node2D" parent="Pivot/Sprite"]
+position = Vector2( 5.53249, -0.229308 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/shoot_left = SubResource( 1 )
+anims/shoot_right = SubResource( 2 )
 
 [node name="ShootTimer" type="Timer" parent="."]
-wait_time = 0.3
+wait_time = 0.4
+
+[node name="BlastAnimatedSprite" type="AnimatedSprite" parent="."]
+visible = false
+position = Vector2( 16.0818, -2.03735 )
+frames = SubResource( 8 )
+frame = 3
+
+[node name="BlastPosition" type="Node2D" parent="."]
+position = Vector2( 16.1728, -2.53616 )
+
+[node name="SmokeParticles" type="Particles2D" parent="."]
+visible = false
+position = Vector2( 13.5729, -2.71135 )
+emitting = false
+amount = 3
+lifetime = 0.4
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource( 11 )
+texture = ExtResource( 4 )
+
+[node name="TwigParticles" type="Particles2D" parent="."]
+visible = false
+position = Vector2( 10.685, -2.96805 )
+emitting = false
+amount = 6
+lifetime = 0.2
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource( 12 )
+texture = ExtResource( 5 )
+
 [connection signal="timeout" from="ShootTimer" to="." method="_on_ShootTimer_timeout"]
+[connection signal="animation_finished" from="BlastAnimatedSprite" to="." method="_on_BlastAnimatedSprite_animation_finished"]

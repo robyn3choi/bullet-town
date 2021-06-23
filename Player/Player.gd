@@ -1,11 +1,12 @@
 extends KinematicBody2D
 
 var DirString = Globals.DirectionString
-const speed = 5000
-const dash_speed = 20000
-const dash_duration = 0.15
+const speed = 6000
+const dash_speed = 23000
+const dash_duration = 0.16
 const invincibility_duration = 1.2
 
+onready var sprite = $Sprite
 onready var anim_player = $AnimationPlayer
 onready var gun = $Gun
 onready var health = $Health
@@ -58,7 +59,7 @@ func _physics_process(delta):
 		&& ! dash.is_dashing()
 		&& move_direction != Vector2.ZERO
 	):
-		dash.start_dash($Sprite, dash_duration, move_direction)
+		dash.start_dash(sprite, dash_duration, move_direction)
 		hurtbox.is_invincible = true
 		last_move_direction = move_direction
 
@@ -120,7 +121,7 @@ func _on_Hurtbox_area_entered(area: Area2D) -> void:
 	if ! hurtbox.is_invincible:
 		health.current_health -= 0.5
 		hurtbox.start_invincibility_blink(invincibility_duration)
-		blinker.start_blinking(self, invincibility_duration)
+		blinker.start_blinking([$ShadowSprite, sprite, gun], invincibility_duration)
 		Globals.camera.start_shake()
 
 
