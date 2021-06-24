@@ -1,0 +1,50 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Player/player-hands.png" type="Texture" id=1]
+
+[sub_resource type="Shader" id=15]
+code = "shader_type canvas_item;
+
+uniform bool hide_left = true;
+uniform bool hide_right = false;
+uniform sampler2D mask_texture;
+
+void fragment() {
+	vec4 texture_color = texture(TEXTURE, UV);
+	
+	texture_color.a *= texture(mask_texture, UV).a;
+	COLOR = texture_color;
+//	if ((hide_left && UV.x < 0.0) || (hide_right && UV.x > 0.5)) {
+//		texture_color.a = 0.0;
+//	}
+	
+}"
+
+[sub_resource type="ShaderMaterial" id=16]
+shader = SubResource( 15 )
+shader_param/hide_left = true
+shader_param/hide_right = false
+
+[node name="Hands" type="Node2D"]
+
+[node name="HandsClipControl" type="Control" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -16.0
+margin_top = -16.0
+margin_right = 16.0
+margin_bottom = 16.0
+rect_pivot_offset = Vector2( 16, 16 )
+rect_clip_content = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HandsSprite" type="Sprite" parent="HandsClipControl"]
+material = SubResource( 16 )
+position = Vector2( 16, 16 )
+texture = ExtResource( 1 )
+flip_h = true
+hframes = 48

@@ -6,7 +6,7 @@ const dash_speed = 23000
 const dash_duration = 0.16
 const invincibility_duration = 1.2
 
-onready var sprite = $Sprite
+onready var sprite = $BodySprite
 onready var anim_player = $AnimationPlayer
 onready var gun = $Gun
 onready var health = $Health
@@ -20,13 +20,13 @@ var mouse_direction = Vector2(0, 1)
 var last_move_direction = Vector2(0, 1)
 var last_joystick_direction = Vector2(0, 1)
 
-
 func _ready():
 	randomize()  # TODO: move to more general class
 
 	Globals.player = self
 	anim_player.play("idle_down")
-
+	$Hands.is_wielding = is_wielding
+	
 	if ! is_wielding:
 		gun.queue_free()
 
@@ -131,3 +131,7 @@ func _on_Health_no_health() -> void:
 
 func _on_Dash_dash_ended() -> void:
 	 hurtbox.is_invincible = false
+
+
+func _on_Gun_switched_hands(is_on_right) -> void:
+	$Hands.set_gun_hand(is_on_right)
