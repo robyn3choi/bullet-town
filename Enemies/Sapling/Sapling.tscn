@@ -392,8 +392,8 @@ graph_offset = Vector2( -232, -73.6877 )
 radius = 21.0
 
 [sub_resource type="CapsuleShape2D" id=31]
-radius = 11.2451
-height = 12.0
+radius = 9.9385
+height = 16.1271
 
 [node name="Sapling" type="KinematicBody2D"]
 collision_layer = 4
@@ -454,7 +454,6 @@ anims/run_up = SubResource( 10 )
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource( 28 )
 anim_player = NodePath("../AnimationPlayer")
-active = true
 parameters/playback = SubResource( 29 )
 parameters/conditions/attack = false
 parameters/conditions/die = false
