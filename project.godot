@@ -152,6 +152,8 @@ dash={
 2d_physics/layer_4="SoftCollisions"
 2d_physics/layer_5="EnemyAttacks"
 2d_physics/layer_6="PlayerAttacks"
+2d_physics/layer_7="EnemyHurtboxes"
+2d_physics/layer_8="PlayerHurtbox"
 
 [rendering]
 

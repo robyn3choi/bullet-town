@@ -392,7 +392,7 @@ graph_offset = Vector2( -232, -73.6877 )
 radius = 21.0
 
 [sub_resource type="CapsuleShape2D" id=31]
-radius = 14.0
+radius = 11.2451
 height = 12.0
 
 [node name="Sapling" type="KinematicBody2D"]
@@ -428,7 +428,7 @@ texture = ExtResource( 7 )
 material = ExtResource( 9 )
 texture = ExtResource( 1 )
 hframes = 33
-frame = 5
+frame = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
@@ -498,12 +498,13 @@ visible = false
 shape = SubResource( 30 )
 
 [node name="Hurtbox" parent="." instance=ExtResource( 8 )]
-visible = false
-collision_layer = 0
+collision_layer = 64
 collision_mask = 32
 whiten_material = ExtResource( 9 )
 
 [node name="CollisionShape2D" parent="Hurtbox" index="0"]
+position = Vector2( 5, 0 )
+rotation = 0.392699
 shape = SubResource( 31 )
 
 [node name="Health" parent="." instance=ExtResource( 12 )]

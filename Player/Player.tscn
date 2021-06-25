@@ -580,7 +580,7 @@ tracks/3/keys = {
 radius = 6.06475
 height = 10.042
 
-[sub_resource type="Shader" id=17]
+[sub_resource type="Shader" id=15]
 code = "shader_type canvas_item;
 
 uniform bool hide_left = true;
@@ -599,7 +599,7 @@ void fragment() {
 }"
 
 [sub_resource type="ShaderMaterial" id=16]
-shader = SubResource( 17 )
+shader = SubResource( 15 )
 shader_param/hide_left = true
 shader_param/hide_right = false
 
@@ -629,7 +629,7 @@ anims/run_up-right = SubResource( 13 )
 
 [node name="Hurtbox" parent="." instance=ExtResource( 4 )]
 visible = false
-collision_layer = 0
+collision_layer = 128
 collision_mask = 20
 whiten_material = ExtResource( 6 )
 
@@ -668,7 +668,6 @@ hframes = 48
 script = ExtResource( 12 )
 
 [node name="GunHandSprite" type="Sprite" parent="Hands"]
-visible = false
 position = Vector2( 9, 6 )
 texture = ExtResource( 13 )
 

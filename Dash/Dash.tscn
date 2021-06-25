@@ -5,13 +5,13 @@
 
 [sub_resource type="CanvasItemMaterial" id=1]
 particles_animation = true
-particles_anim_h_frames = 11
+particles_anim_h_frames = 6
 particles_anim_v_frames = 1
 particles_anim_loop = false
 
 [sub_resource type="Curve" id=2]
 max_value = 1.5
-_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.521502, 1.5 ), 0.0, 0.0, 0, 0 ]
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.523438, 1.5 ), 2.28768, 0.0, 0, 0 ]
 
 [sub_resource type="CurveTexture" id=3]
 curve = SubResource( 2 )
@@ -30,7 +30,7 @@ anim_speed_curve = SubResource( 3 )
 
 [sub_resource type="CanvasItemMaterial" id=5]
 particles_animation = true
-particles_anim_h_frames = 11
+particles_anim_h_frames = 6
 particles_anim_v_frames = 1
 particles_anim_loop = false
 

@@ -1,5 +1,7 @@
 extends Node2D
 
+signal switched_hands
+
 export var left_pos: Vector2
 export var right_pos: Vector2
 
@@ -21,7 +23,7 @@ var switch_buffer = 0
 var switch_disable_distance = 500
 var is_shooting = false
 var time_since_last_shoot = 0.0
-var switch_y_offset = 6 # gun_sprite.texture.get_height()
+var switch_y_offset = 8 # gun_sprite.texture.get_height()
 
 func _ready():
 	position = right_pos
@@ -41,7 +43,6 @@ func aim_with_mouse(angle_to_cursor, cursor_pos):
 	
 
 func aim_with_joystick():
-	print("joy")
 	var joystick_input = Vector2(
 		Input.get_action_strength('aim_right') - Input.get_action_strength('aim_left'),
 		Input.get_action_strength('aim_down') - Input.get_action_strength('aim_up'))
@@ -64,12 +65,14 @@ func switch_to_right():
 	gun_sprite.position.y -= switch_y_offset
 	position = right_pos
 	is_on_right = true
+	emit_signal('switched_hands', true)
 	
 func switch_to_left():
 	gun_sprite.scale = Vector2(1, -1)
 	gun_sprite.position.y += switch_y_offset
 	position = left_pos
 	is_on_right = false
+	emit_signal('switched_hands', false)
 	
 func look_at_target(cursor_pos):
 	var look_at_pos = cursor_pos;

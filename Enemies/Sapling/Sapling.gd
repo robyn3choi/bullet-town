@@ -17,8 +17,8 @@ var leaves_recycled = 0
 var is_moving = false
 var is_attacking = false
 var is_dead = false
-var last_hit_rotation = 0
-
+var last_hit_velocity = Vector2(0, 0)
+var knockback: Vector2 = Vector2(0, 0)
 
 func _ready():
 	is_moving = true
@@ -42,9 +42,12 @@ func _physics_process(delta: float) -> void:
 			if run_blend_pos < 0:
 				leaves_parent.scale.x = -1
 
-		if is_moving:
+		if knockback != Vector2.ZERO:
+			move_and_collide(knockback)
+			knockback = knockback.move_toward(Vector2.ZERO, 1)
+			print(knockback)
+		elif is_moving:
 			move(delta)
-
 
 func move(delta):
 	state_machine.travel("run")
@@ -102,7 +105,9 @@ func _on_AttackDurationTimer_timeout() -> void:
 
 
 func _on_Hurtbox_area_entered(area: Area2D) -> void:
-	last_hit_rotation = area.rotation
+	if "knockback_force" in area:
+		knockback = area.knockback_force * area.velocity.normalized()
+	last_hit_velocity = area.velocity
 	$Health.current_health -= 1
 
 
@@ -122,7 +127,7 @@ func _on_Health_no_health() -> void:
 	$ShadowSprite.visible = false
 	$Leaves.visible = false
 	
-	var particles_direction = Vector3(cos(last_hit_rotation), sin(last_hit_rotation), 0)
+	var particles_direction = Vector3(last_hit_velocity.x, last_hit_velocity.y, 0)
 	$Shards1.process_material.direction = particles_direction
 	$Shards2.process_material.direction = particles_direction
 	$Shards1.emitting = true

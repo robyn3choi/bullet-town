@@ -1,6 +1,6 @@
 extends Node
 
-var trail_length = 0
+export var trail_length = 5
 export(Vector2) var offset
 onready var line = $Line2D
 var is_enabled = true
@@ -17,6 +17,8 @@ func _physics_process(delta: float) -> void:
 			trail_length = 0
 
 func disable():
+#	is_enabled = false
+#	line.points = []
 	is_enabled = false
 	
 func enable():

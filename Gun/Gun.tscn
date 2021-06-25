@@ -19,8 +19,8 @@ tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0, 0.05, 0.15 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ 0.0, 35.0, 0.0 ]
+"update": 1,
+"values": [ 0.0, 25.0, 0.0 ]
 }
 
 [sub_resource type="Animation" id=2]
@@ -36,8 +36,8 @@ tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0, 0.05, 0.15 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ 0.0, -35.0, 0.0 ]
+"update": 1,
+"values": [ 0.0, -25.0, 0.0 ]
 }
 
 [sub_resource type="AtlasTexture" id=3]
@@ -101,11 +101,15 @@ angle_random = 1.0
 
 [node name="Gun" type="Node2D"]
 script = ExtResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="Pivot" type="Node2D" parent="."]
+rotation = 0.610865
 
 [node name="Sprite" type="Sprite" parent="Pivot"]
-position = Vector2( 3.981, -2.349 )
+position = Vector2( 4.10215, -3.80276 )
 texture = ExtResource( 1 )
 __meta__ = {
 "_editor_description_": ""
